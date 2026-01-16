@@ -61,7 +61,51 @@ graph TD
     style P fill:#fff3e0
     style R fill:#e8f5e8
 ```
+### Detailed Process Flow
 
+```mermaid
+graph LR
+    subgraph "Phase 1: Feature Encoding"
+        A1[Text Input<br/>Tokenized Sequences] --> B1[BERT Encoder<br/>12 Layers, 768D]
+        A2[Audio Input<br/>Raw Waveform] --> B2[Wav2Vec2 Encoder<br/>Transformer, 768D]
+        A3[User Metadata<br/>Age, Gender, Timbre] --> B3[Metadata Embedder<br/>256D Features]
+    end
+    
+    subgraph "Phase 2: Cross-Modal Attention"
+        B1 --> C1[Text Features<br/>T tokens × 768D]
+        B2 --> C2[Audio Features<br/>A frames × 768D]
+        
+        C1 --> D1[Query Projection<br/>W_Q_text]
+        C2 --> D2[Key/Value Projection<br/>W_K_audio, W_V_audio]
+        
+        D1 --> E1[Text-to-Audio<br/>Attention Computation]
+        D2 --> E1
+        
+        C2 --> F1[Query Projection<br/>W_Q_audio]
+        C1 --> F2[Key/Value Projection<br/>W_K_text, W_V_text]
+        
+        F1 --> G1[Audio-to-Text<br/>Attention Computation]
+        F2 --> G1
+        
+        E1 --> H1[Attended Audio<br/>Cross-Modal Features]
+        G1 --> H2[Attended Text<br/>Cross-Modal Features]
+    end
+    
+    subgraph "Phase 3: Feature Fusion"
+        H1 --> I1[Multi-Level Concat<br/>Attended + Raw Features]
+        H2 --> I1
+        C1 --> I1
+        C2 --> I1
+        
+        B3 --> I2[Metadata Integration<br/>Contextual Weighting]
+        
+        I1 --> J1[Fused Representation<br/>4 × 768D = 3072D]
+        I2 --> J1
+        
+        J1 --> K1[Classification Head<br/>Linear + Dropout]
+        K1 --> L1[Emotion Prediction<br/>7 Classes + Attention Maps]
+    end
+```
 ---
 
 ## 🔬 Mathematical Framework
