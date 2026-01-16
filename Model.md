@@ -127,10 +127,6 @@ graph LR
         
         F1 --> G1[Final Classification<br/>Emotion Recognition]
     end
-    
-    style "Phase 1: Feature Extraction" fill:#e3f2fd
-    style "Phase 2: Individual Models" fill:#f3e5f5
-    style "Phase 3: Adaptive Fusion" fill:#fff3e0
 ```
 
 ---
