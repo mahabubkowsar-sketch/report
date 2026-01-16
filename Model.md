@@ -42,6 +42,99 @@ Our system implements three distinct models that achieve different performance l
 
 ---
 
+## 🔄 Complete System Architecture Flowchart
+
+```mermaid
+graph TD
+    A[Multimodal Input] --> B[Video Input<br/>8 frames 224x224]
+    A --> C[Audio Input<br/>16kHz Waveform]
+    A --> D[Text Input<br/>Spoken Content]
+    A --> E[Metadata Input<br/>Age, Gender, Timbre, Role]
+    
+    B --> F[Video Processing<br/>MIMAMO Net]
+    C --> G[Audio Processing<br/>Wav2Vec2]
+    D --> H[Text Processing<br/>BERT Encoder]
+    E --> I[Metadata Embedding<br/>256D Features]
+    
+    F --> J[Video Features<br/>384D Transformer Output]
+    G --> K[Audio Features<br/>768D Acoustic Embeddings]
+    H --> L[Text Features<br/>768D Language Embeddings]
+    
+    J --> M[Model 1: MIMAMO Net<br/>Video + Text Fusion]
+    K --> N[Model 2: Audio-Text LSTM<br/>Audio + Text + Metadata]
+    L --> N
+    L --> M
+    I --> N
+    I --> O[Metadata Gates<br/>Adaptive Weighting]
+    
+    M --> P[MIMAMO Output<br/>72.24% Accuracy]
+    N --> Q[Audio-Text Output<br/>83.15% Accuracy]
+    
+    P --> R[Adaptive Gated Fusion Layer]
+    Q --> R
+    O --> R
+    
+    R --> S[Dynamic Weight Computation<br/>Softmax Normalization]
+    S --> T[Weighted Feature Fusion<br/>Personalized Modality Emphasis]
+    
+    T --> U[Enhanced Classification Layer<br/>7 Emotion Classes]
+    U --> V[Final Prediction<br/>60.42% Fusion Accuracy]
+    
+    V --> W[Output with Interpretability<br/>Emotion + Attention Weights]
+    
+    style A fill:#e3f2fd
+    style F fill:#f3e5f5
+    style G fill:#f3e5f5
+    style H fill:#f3e5f5
+    style R fill:#fff3e0
+    style S fill:#fff3e0
+    style T fill:#fff3e0
+    style W fill:#e8f5e8
+```
+
+### Detailed Process Flow
+
+```mermaid
+graph LR
+    subgraph "Phase 1: Feature Extraction"
+        A1[Raw Video] --> B1[TimeSformer<br/>4 layers, 6 heads]
+        A2[Raw Audio] --> B2[Wav2Vec2<br/>Self-supervised]
+        A3[Raw Text] --> B3[BERT Base<br/>12 layers]
+        A4[User Metadata] --> B4[Embedding Layer<br/>Age, Gender, Timbre]
+    end
+    
+    subgraph "Phase 2: Individual Models"
+        B1 --> C1[Video Embeddings<br/>384D]
+        B2 --> C2[Audio Embeddings<br/>768D]
+        B3 --> C3[Text Embeddings<br/>768D]
+        B4 --> C4[Metadata Embeddings<br/>256D]
+        
+        C1 --> D1[MIMAMO Net<br/>Cross-modal Attention]
+        C2 --> D2[Audio-Text LSTM<br/>Multimodal Processing]
+        C3 --> D1
+        C3 --> D2
+        C4 --> D2
+    end
+    
+    subgraph "Phase 3: Adaptive Fusion"
+        D1 --> E1[Video-Text Logits<br/>7 classes]
+        D2 --> E2[Audio-Text Logits<br/>7 classes]
+        C4 --> E3[Metadata Gates<br/>Dynamic Weighting]
+        
+        E1 --> F1[Gated Fusion<br/>Learnable Weights]
+        E2 --> F1
+        E3 --> F1
+        
+        F1 --> G1[Final Classification<br/>Emotion Recognition]
+    end
+    
+    style "Phase 1: Feature Extraction" fill:#e3f2fd
+    style "Phase 2: Individual Models" fill:#f3e5f5
+    style "Phase 3: Adaptive Fusion" fill:#fff3e0
+```
+
+---
+
 ## 🧠 Core Innovation: Adaptive Gated Fusion
 
 ### How It Works (Process Overview)
