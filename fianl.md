@@ -177,3 +177,133 @@ $$\hat{y} = \arg\max(\text{Softmax}(H))$$
 
 ### 30: Result:
 **Step 31:** Return trained Adaptive Gated Fusion model, predicted emotion labels, and learned modality importance weights
+
+---
+
+## Hyperparameters Configuration
+
+### Table 1: Optimized Hyperparameters for MIMAMO Net
+
+| Parameter | Value | Description |
+|-----------|-------|-------------|
+| **Learning Rate** | 5.61 × 10⁻⁵ | Initial learning rate for AdamW optimizer |
+| **Batch Size** | 4 | Number of samples processed per training step |
+| **Embedding Dimension** | 504 | Feature embedding size for transformer layers |
+| **Number of Attention Heads** | 12 | Multi-head attention mechanism |
+| **MIMAMO Blocks** | 6 | Number of transformer encoder blocks |
+| **Dropout Rate** | 0.185 | Regularization dropout probability |
+| **Hidden Layer Size** | 512 | Fully connected layer dimensions |
+| **Weight Decay** | 3.75 × 10⁻⁴ | L2 regularization parameter |
+| **Focal Loss Alpha** | 1.148 | Class imbalance handling parameter |
+| **Focal Loss Gamma** | 1.582 | Hard sample focus parameter |
+| **Warmup Ratio** | 0.222 | Learning rate warmup proportion |
+| **Maximum Epochs** | 15 | Training epochs limit |
+| **Patience** | 5 | Early stopping patience |
+| **Number of Classes** | 7 | Emotion classification categories |
+| **Max Dialogue Length** | 10 | Sequential conversation length |
+
+### Table 2: Model Architecture Parameters
+
+| Component | Parameter | Value |
+|-----------|-----------|-------|
+| **Text Encoder** | Model | BERT-base-uncased |
+| **Text Encoder** | Hidden Size | 768 |
+| **Text Encoder** | Max Length | 512 tokens |
+| **Audio Encoder** | Model | Wav2Vec 2.0 |
+| **Audio Encoder** | Sample Rate | 16,000 Hz |
+| **Audio Encoder** | Feature Dim | 768 |
+| **Video Encoder** | Frame Size | 224 × 224 |
+| **Video Encoder** | Target FPS | 2 |
+| **Video Encoder** | Number of Frames | 8 |
+| **Video Encoder** | Normalization | ImageNet statistics |
+| **Fusion Layer** | Input Dimensions | [768, 768, 768] |
+| **Fusion Layer** | Output Dimension | 504 |
+| **Classification Head** | Input Dimension | 504 |
+| **Classification Head** | Output Classes | 7 |
+
+### Table 3: Training Configuration
+
+| Parameter | Value | Description |
+|-----------|-------|-------------|
+| **Optimizer** | AdamW | Adaptive moment estimation with weight decay |
+| **Loss Function** | Focal Loss | Handles class imbalance effectively |
+| **Scheduler** | Linear with Warmup | Gradual learning rate adjustment |
+| **Mixed Precision** | Enabled | GPU memory optimization |
+| **Gradient Clipping** | 1.0 | Prevents gradient explosion |
+| **Data Workers** | 2 | Parallel data loading threads |
+| **Pin Memory** | True | GPU memory optimization |
+| **Drop Last** | True | Consistent batch sizes |
+
+---
+
+## System Flowchart
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    Input Data Sources                       │
+├─────────────────┬─────────────────┬─────────────────┬───────┤
+│      Text       │      Audio      │      Video      │ Meta  │
+│   (Dialogue)    │   (Speech)      │   (Facial)      │ Data  │
+└─────────┬───────┴─────────┬───────┴─────────┬───────┴───┬───┘
+          │                 │                 │           │
+          ▼                 ▼                 ▼           ▼
+┌─────────────────┐ ┌─────────────────┐ ┌─────────────────┐ ┌─────┐
+│   BERT Encoder  │ │ Wav2Vec2 Encoder│ │  MIMAMO Video   │ │Meta │
+│   (Pre-trained) │ │   (Pre-trained) │ │    Encoder      │ │Enc. │
+│                 │ │                 │ │  (Transformer)  │ │     │
+└─────────┬───────┘ └─────────┬───────┘ └─────────┬───────┘ └──┬──┘
+          │                   │                   │            │
+          ▼                   ▼                   ▼            │
+    ┌──────────────┐    ┌──────────────┐    ┌──────────────┐   │
+    │ Text Features│    │Audio Features│    │Video Features│   │
+    │   h_t (768)  │    │   h_a (768)  │    │   h_v (768)  │   │
+    └──────┬───────┘    └──────┬───────┘    └──────┬───────┘   │
+           │                   │                   │           │
+           └───────────────────┼───────────────────┘           │
+                               │                               │
+                               ▼                               │
+                    ┌─────────────────────┐                   │
+                    │  Cross-Modal        │                   │
+                    │  Attention Layer    │◄──────────────────┘
+                    │  (Algorithm 1)      │
+                    └──────────┬──────────┘
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │ Adaptive Gated      │
+                    │ Fusion Layer        │
+                    │ (Algorithm 2)       │
+                    └──────────┬──────────┘
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │   Feature Fusion    │
+                    │   H_fused (504)     │
+                    └──────────┬──────────┘
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │  Classification     │
+                    │  Head (FC Layers)   │
+                    └──────────┬──────────┘
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │   Emotion Classes   │
+                    │  [Joy, Sadness,     │
+                    │   Anger, Fear,      │
+                    │   Surprise, Love,   │
+                    │   Disgust]          │
+                    └─────────────────────┘
+```
+
+### Performance Metrics
+
+| Metric | Value |
+|--------|-------|
+| **Test Accuracy** | 62.73% |
+| **Test Precision** | 64.54% |
+| **Test Recall** | 62.73% |
+| **Test F1-Score** | 62.15% |
+| **Best Validation Accuracy** | 62.27% |
+| **Test Loss** | 1.046 |
