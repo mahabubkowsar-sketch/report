@@ -90,39 +90,3 @@ Analysis of input feature contributions:
 | | Early Fusion | 0.804 | 80.58% | Information bottleneck |
 | | No Fusion (Single) | 0.722 | 72.24% | Missing complementary information |
 
-## Key Findings and Insights
-
-### 1. Modality Contribution Hierarchy
-**Critical Finding**: Our ablation study reveals that video modality contributes negligibly to emotion recognition performance in our specific dataset context. The Audio-Text-Metadata model achieves identical performance (83.15%) to the full trimodal system, indicating complete redundancy of visual information.
-
-**Implication**: This suggests that for dialogue-based emotion recognition tasks, acoustic and linguistic features may capture sufficient emotional information, potentially due to the conversational nature of our dataset.
-
-### 2. Component Criticality Ranking
-Based on performance impact when removed:
-1. **Text Modality**: -13.30% impact (most critical)
-2. **Audio Modality**: -10.91% impact (highly important) 
-3. **Attention Mechanisms**: -3.97% impact (moderate importance)
-4. **Preprocessing**: -2.73% impact (beneficial but not critical)
-5. **Metadata**: -1.39% impact (marginal contribution)
-6. **Video Modality**: 0.00% impact (redundant)
-
-### 3. Architectural Insights
-- **Sequential Processing**: LSTM layers prove essential for temporal emotion pattern recognition
-- **Regularization**: Moderate dropout (0.3) provides optimal bias-variance trade-off
-- **Fusion Strategy**: Late fusion outperforms early fusion, preserving modality-specific representations
-
-## Recommendations and Future Work
-
-### Model Optimization Recommendations
-1. **Simplified Architecture**: Deploy Audio-Text-Metadata model for optimal efficiency-performance balance
-2. **Resource Allocation**: Focus computational resources on audio and text processing pipelines
-3. **Video Processing**: Consider removing video components for deployment efficiency
-
-### Future Research Directions
-1. **Dataset Dependency**: Investigate video modality importance across different emotion recognition datasets
-2. **Attention Mechanisms**: Explore more sophisticated cross-modal attention architectures
-3. **Temporal Modeling**: Experiment with transformer-based temporal encoders as LSTM alternatives
-
-## Conclusion
-
-The comprehensive ablation study demonstrates that our multimodal emotion recognition system achieves optimal performance through Audio-Text-Metadata fusion, with video modality proving redundant in our experimental context. These findings provide valuable insights for model deployment, computational optimization, and future architectural improvements while maintaining scientific rigor in component evaluation.
