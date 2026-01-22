@@ -132,8 +132,8 @@ An ablation study in deep learning refers to a systematic analysis used to evalu
    - Extend late fusion training beyond 14 epochs
    - Optimize video transformer architecture for emotion-specific features
    - Implement modality-specific preprocessing enhancements
-  
-   - | Variant | Description | Components | Preprocessing | Attention | Fusion | Weighted Loss | Accuracy | F1 Score |
+
+    | Variant | Description | Components | Preprocessing | Attention | Fusion | Weighted Loss | Accuracy | F1 Score |
 |---------|-------------|------------|---------------|-----------|---------|--------------|----------|----------|
 | **Full Model (Enhanced)** | Complete model with all enhancements | Video, Audio, Text | ✓ | ✓ | Late Enhanced | ✓ | **0.9862** | **0.9850** |
 | **Video Only** | Video modality with basic preprocessing | Video | ✓ | ✗ | ✗ | ✗ | 0.9862 | 0.9850 |
