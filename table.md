@@ -8,3 +8,19 @@
 | + Fusion | ✓ | ✓ | ✓ | ✗ | 0.87 | 90.7% |
 | + Weighted Loss | ✓ | ✓ | ✓ | ✓ | 0.89 | 91.2% |
 | **Full Model** | **✓** | **✓** | **✓** | **✓** | **0.99** | **98.6%** |
+
+
+
+## Table VI. ABLATION STUDY RESULTS NEEDED
+
+| Variant | Preprocessing | Attention Module | Fusion Strategy | Weighted Loss | F1 | Accuracy |
+|---------|---------------|------------------|------------------|---------------|----|---------| 
+| Baseline CNN | ✗ | ✗ | ✗ | ✗ | ? | ? |
+| + Preprocessing | ✓ | ✗ | ✗ | ✗ | ? | ? |
+| + Attention | ✓ | ✓ | ✗ | ✗ | ? | ? |
+| + Fusion | ✓ | ✓ | ✓ | ✗ | ? | ? |
+| Audio-Text Model | ✓ | ✓ | Early | ✓ | 0.82 | 83.15% |
+| MIMAMO Net | ✓ | ✓ | MIMAMO | ✓ | 0.62 | 62.73% |
+| **Video Only** | **✓** | **✗** | **✗** | **✗** | **0.99** | **98.62%** |
+
+*Note: ? indicates experiments needed to complete the ablation study*
