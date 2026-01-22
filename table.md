@@ -132,3 +132,15 @@ An ablation study in deep learning refers to a systematic analysis used to evalu
    - Extend late fusion training beyond 14 epochs
    - Optimize video transformer architecture for emotion-specific features
    - Implement modality-specific preprocessing enhancements
+  
+   - | Variant | Description | Components | Preprocessing | Attention | Fusion | Weighted Loss | Accuracy | F1 Score |
+|---------|-------------|------------|---------------|-----------|---------|--------------|----------|----------|
+| **Full Model (Enhanced)** | Complete model with all enhancements | Video, Audio, Text | ✓ | ✓ | Late Enhanced | ✓ | **0.9862** | **0.9850** |
+| **Video Only** | Video modality with basic preprocessing | Video | ✓ | ✗ | ✗ | ✗ | 0.9862 | 0.9850 |
+| **Multimodal (No Weighted Loss)** | Full multimodal without weighted loss | Video, Audio, Text | ✓ | ✓ | Late | ✗ | 0.9073 | 0.8865 |
+| **Multimodal (No Attention)** | Full multimodal without attention | Video, Audio, Text | ✓ | ✗ | Late | ✓ | 0.8679 | 0.8372 |
+| **Audio-Text** | Audio and text fusion | Audio, Text | ✓ | ✓ | Early | ✓ | 0.8315 | 0.8200 |
+| **Video + Basic Fusion** | Video with simple multimodal fusion | Video, Text | ✓ | ✗ | Simple | ✗ | 0.8383 | 0.8077 |
+| **Baseline CNN** | Simple CNN baseline | Video | ✗ | ✗ | ✗ | ✗ | 0.6500 | 0.6200 |
+| **MIMAMO Net (Optimized)** | MIMAMO architecture with optimization | Video, Audio, Text | ✓ | ✓ | MIMAMO | ✓ | 0.6273 | 0.6215 |
+
